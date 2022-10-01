@@ -1,0 +1,36 @@
+
+.fileForm {
+  border: 2px solid black;
+  border-radius: 6px;
+  padding: 0px 15px 10px 15px;
+  text-align: center;
+  background-color: wheat;
+  color: black;
+  line-height: 30px;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.outputFileDiv {
+  margin: 10px;
+  border: 2px solid black;
+  border-radius: 6px;
+  text-align: center;
+  background-color: wheat;
+  color: black;
+}
+
+.noFileP {
+  padding: 0px 15px;
+}
+.extSelection  {
+  padding: 5px;
+}

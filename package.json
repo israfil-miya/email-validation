@@ -1,0 +1,27 @@
+{
+  "name": "email_validation",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@exodus/email-deep-validator": "^3.4.0-2",
+    "inngest": "^0.4.4",
+    "next": "12.3.1",
+    "pusher": "^5.1.1-beta",
+    "pusher-js": "^7.4.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-toastify": "^9.0.8",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "eslint": "8.24.0",
+    "eslint-config-next": "12.3.1",
+    "netlify-plugin-inngest": "^1.0.0"
+  }
+}
