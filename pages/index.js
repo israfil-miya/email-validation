@@ -88,8 +88,8 @@ export default function Home() {
   const oneMailSubmit = async (e) => {
     e.preventDefault()
     if (!oneEmail) { toast.error("Please enter an email !!", { toastId: "error", transition: Zoom }); return }
-    if (oneEmail.length >= 150) { toast.error("Please enter an email less than 150 characters !!", { toastId: "error", transition: Zoom }); return }
-    let res = await fetch(`/api/validate-api`, {
+    if (oneEmail.length > 150) { toast.error("Please enter an email less than 150 characters !!", { toastId: "error", transition: Zoom }); return }
+    let res = await fetch(`/api/validate-one`, {
       method: 'POST',
       body: JSON.stringify({ oneEmail }),
       headers: {
