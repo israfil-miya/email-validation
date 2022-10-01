@@ -103,12 +103,12 @@ export default function Home() {
     });
     let resJson = await res.json()
     document.getElementsByClassName("output")[0].innerHTML = `
-  <div style="padding: 0px 15px 0px 15px">
+  <div style="padding: 0px 15px 10px 15px">
   <center style="word-break: break-all; padding: 10px"><em>${oneEmail}</em></center>
-    <div style="line-height: 10px">
-      <p><strong>Is Email: </strong>${resJson.wellFormed ? "Yes" : "No"}</p>
-      <p><strong>Valid Domain: </strong>${resJson.validDomain ? "Yes" : "No"}</p>
-      <p><strong>Valid Mailbox: </strong>${resJson.validMailbox ? "Yes" : "No"}</p>
+    <div>
+      <span style="display: block"><strong>Is Email: </strong>${resJson.wellFormed ? "Yes" : "No"}</span>
+      <span style="display: block"><strong>Valid Domain: </strong>${resJson.validDomain ? "Yes" : "No"}</span>
+      <span style="display: block"><strong>Valid Mailbox: </strong>${resJson.validMailbox ? "Yes" : "No"}</span>
     </div>
   </div>
   `
@@ -116,6 +116,15 @@ export default function Home() {
   }
   return (
     <div className={styles.main}>
+      <form onSubmit={oneMailSubmit} style={{ width: "300px" }} className={styles.fileForm} >
+        <label htmlFor='one_email'><strong>Validate one email</strong></label><br />
+        <input required value={oneEmail} style={{ width: "220px", padding: "5px", margin: "5px" }} onChange={(e) => setOneEmail(e.target.value)} type="text" name="one_email" id='one_email' /><br />
+        <input style={{ padding: "8px 10px", fontWeight: "bold" }} value="Validate One" type="submit" />
+      </form>
+      <div className={`${styles.outputFileDiv} output`}>
+        <p className={`${styles.noFileP} isNoOutput`}><strong>No result to show !!</strong></p>
+      </div>
+      <br />
       <form id="fileInputForm" className={styles.fileForm} onSubmit={fileSubmit}>
         <label htmlFor='ext'><strong>Select export extension</strong></label><br />
         <select className={styles.extSelection} onChange={e => setExportExt(e.target.value)} name="ext" id="ext">
@@ -131,15 +140,6 @@ export default function Home() {
       </form>
       <div className={`${styles.outputFileDiv} outputFile`}>
         <p className={`${styles.noFileP} isNoOutputFile`}><strong>No file to download !!</strong></p>
-      </div>
-      <br />
-      <form onSubmit={oneMailSubmit} style={{ width: "300px" }} className={styles.fileForm} >
-        <label htmlFor='one_email'><strong>Validate one email</strong></label><br />
-        <input required value={oneEmail} style={{ width: "220px", padding: "5px", margin: "5px" }} onChange={(e) => setOneEmail(e.target.value)} type="text" name="one_email" id='one_email' /><br />
-        <input style={{ padding: "8px 10px", fontWeight: "bold" }} value="Validate One" type="submit" />
-      </form>
-      <div className={`${styles.outputFileDiv} output`}>
-        <p className={`${styles.noFileP} isNoOutput`}><strong>No result to show !!</strong></p>
       </div>
     </div>
   )
