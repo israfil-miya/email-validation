@@ -66,8 +66,6 @@ export default function Home() {
             return;
           }
 
-
-
     toastId.current = toast.info('Processing...', { autoClose: false, transition: Zoom });
 
     var reader = new FileReader();
@@ -84,7 +82,7 @@ export default function Home() {
     }
     setFile(null)
     setExportExt("txt")
-    document.getElementById("fileInputForm").reset() // reset form
+    document.getElementById("fileInputForm").reset()
 
   }
   const oneMailSubmit = async (e) => {
