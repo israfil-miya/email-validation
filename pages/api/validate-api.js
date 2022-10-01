@@ -20,6 +20,6 @@ export default async function handle(req, res) {
         else res.status(400).json({ message: "Required data missing." })
     }
     if (method == "GET") {
-        res.status(100).json({ message: "GET request not accepted." })
+        res.status(400).json({ message: "GET request not accepted." })
     }
 }
