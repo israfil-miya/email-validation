@@ -81,9 +81,6 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
       })
-      /*
-           
-            */
     }
     setFile(null)
     setExportExt("txt")
