@@ -12,10 +12,10 @@ app.post("/api/validate-bulk", validateBulk)
 app.post("/api/validate-one", validateOne)
 
 app.get("/", (req, res)=> {
-    res.sendFile('index.html', { root: '.' })
+    res.sendFile('./index.html')
 })
 
-app.use("/api", info)
+app.get("/api", info)
 app.listen(port, () => {
     console.info(`API is up on port ${port}`);
 });
