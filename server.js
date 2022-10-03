@@ -9,7 +9,7 @@ const PORT = 8000
 app.use(express.json());
 app.post("/api/validate-bulk", validateBulk)
 app.post("/api/validate-one", validateOne)
-app.get("/api", info)
+app.use("/api", info)
 app.get("/", (req, res)=> {
     res.sendFile('index.html', { root: '.' })
 })
