@@ -17,6 +17,3 @@ app.get("/", (req, res)=> {
 app.listen(PORT, () => {
     console.info(`API is up on port ${PORT}`);
 });
-
-
-export default app
