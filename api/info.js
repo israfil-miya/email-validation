@@ -1,4 +1,7 @@
-const info = (req, res) => {
+import express from "express";
+const router = express.Router()
+
+router.get("/", (req, res) => {
     const data = {
         author: "MD Israfil Miya",
         github: "https://github.com/GitPro10/emails-validator/tree/api",
@@ -26,6 +29,6 @@ const info = (req, res) => {
         thanks: "Thanks to all my users, for using this API. This API is completely free to use. I am grateful."
     }
     res.status(200).json(data)
-}
+})
 
-export default info
+export default router
