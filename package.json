@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@exodus/email-deep-validator": "^3.4.0-2",
+    "deep-email-validator-fix": "^0.1.22",
     "express": "^4.18.1"
   }
 }

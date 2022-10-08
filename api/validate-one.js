@@ -8,8 +8,8 @@ const validate_one = async (req, res) => {
 
         if (typeof (data.email) === "string") {
             const verify = await validateOne(data.email)
-            const { wellFormed, validDomain, validMailbox } = verify
-            res.status(200).json({ wellFormed, validDomain, validMailbox, email: data.email, timestamp: new Date().toISOString() })
+            verify.timestamp = new Date().toISOString()
+            res.status(200).json(verify)
         }
     } catch {
         res.status(500).json({ error: "Server error." })

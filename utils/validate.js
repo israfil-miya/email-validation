@@ -1,17 +1,17 @@
-import EmailValidator from '@exodus/email-deep-validator';
-const emailValidator = new EmailValidator({ useOpenSSL: true });
+import { validate } from 'deep-email-validator-fix'
 
-export const error_or_success = (verify, email) => {
-    let return_text
-    if (verify.wellFormed && verify.validDomain && verify.validMailbox !== null) {
-        return_text = { email, valid: true, wellFormed: verify.wellFormed, validDomain: verify.validDomain, validMailbox: verify.validMailbox }
-    } else {
-        if (email.includes("@yahoo.com") && verify.wellFormed && verify.validDomain)
-            return_text = { email, valid: true, isYahoo: true, wellFormed: verify.wellFormed, validDomain: verify.validDomain, validMailbox: verify.validMailbox }
-        else
-            return_text = { email, valid: false, wellFormed: verify.wellFormed, validDomain: verify.validDomain, validMailbox: verify.validMailbox }
+export const createOutput = (verify, email) => {
+    const { regex, typo, disposable, mx, smtp } = verify.validators
+    return {
+        email,
+        valid: verify.valid,
+        regex: regex.valid,
+        typo: typo.valid,
+        disposable: disposable.valid,
+        mx: mx.valid,
+        smtp: smtp.valid,
+        reason: (!verify.valid) ? verify.validators[verify.reason].reason : null
     }
-    return return_text
 }
 export const sort_by_id = () => {
     return function (elem1, elem2) {
@@ -32,12 +32,12 @@ export const validate_emails = async (allEmails) => {
     await Promise.all(
         allEmails.map(async (email, index) => {
 
-            let verify = await emailValidator.verify(email)
+            let verify = await validate(email)
 
-            const result = error_or_success(verify, email)
-            if (result.valid)
+            const result = createOutput(verify, email)
+            if (verify.valid)
                 validEmails.push({ id: index + 1, emailDetail: result })
-            if (!result.valid)
+            if (!verify.valid)
                 fakeEmails.push({ id: index + 1, emailDetail: result })
 
         }),
@@ -49,7 +49,8 @@ export const validate_emails = async (allEmails) => {
 }
 
 export const validateOne = async (email) => {
-    return await emailValidator.verify(email)
+    return createOutput(await validate(email), email)
+    
 }
 
 // the end
