@@ -12,7 +12,7 @@ app.post("/api/validate-bulk", validateBulk)
 app.post("/api/validate-one", validateOne)
 
 app.get("/", (req, res)=> {
-    res.sendFile('./index.html')
+    res.sendFile('index.html', { root: '.' })
 })
 
 app.get("/api", info)
