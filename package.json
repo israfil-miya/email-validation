@@ -6,11 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --check --ignore-path .gitignore README.md .",
+    "format:fix": "prettier --write --ignore-path .gitignore README.md ."
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "dependencies": {
     "@exodus/email-deep-validator": "^3.4.0-2",
     "inngest": "^0.4.4",
+    "mongoose": "^6.6.5",
     "next": "12.3.1",
     "pusher": "^5.1.1-beta",
     "pusher-js": "^7.4.0",
@@ -22,6 +30,8 @@
   "devDependencies": {
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1",
-    "netlify-plugin-inngest": "^1.0.0"
+    "eslint-config-prettier": "^8.5.0",
+    "netlify-plugin-inngest": "^1.0.0",
+    "prettier": "^2.7.1"
   }
 }

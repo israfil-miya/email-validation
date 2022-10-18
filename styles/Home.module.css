@@ -1,4 +1,3 @@
-
 .fileForm {
   border: 2px solid black;
   border-radius: 6px;
@@ -31,6 +30,6 @@
 .noFileP {
   padding: 0px 15px;
 }
-.extSelection  {
+.extSelection {
   padding: 5px;
 }

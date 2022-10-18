@@ -1,4 +1,7 @@
 import { Inngest } from 'inngest'
+import dbConnect from '../../db/dbConnect.js'
+dbConnect()
+import exportFileData from '../../db/ExportSchema.js'
 export const client = new Inngest({
   name: 'EMAILS VALIDATION SYSTEM',
   eventKey: process.env.INNGEST_EVENT_KEY,
@@ -9,27 +12,12 @@ export default async function handle(req, res) {
   const { method } = req
 
   if (method == 'POST') {
-    if (reqData.fileBase64 && reqData.filename) {
-      client.send({
-        name: 'validate',
-        data: {
-          fileBase64: reqData.fileBase64,
-          filename: reqData.filename,
-          exportExt: reqData.exportExt,
-        },
-      })
-      res.status(200).json({ status: 'done' })
+    if (reqData.id) {
+      const dbData = await exportFileData.findById(reqData.id)
+      res.status(200).json({ status: 'done', dbData })
     } else res.status(400).json({ message: 'Required data missing.' })
   }
   if (method == 'GET') {
     res.status(400).json({ message: 'GET request not accepted.' })
   }
-}
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '100mb', // Set desired value here
-    },
-  },
 }
