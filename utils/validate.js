@@ -2,9 +2,8 @@
 import emailVal from "../true-email-validator/index.js"
 
 export const createOutput = (verify, email) => {
-    console.log(verify)
     // const { regex, typo, disposable, mx, smtp } = verify.validators
-    const { typo, disposable, mx, smtp } = verify
+    // const { typo, disposable, mx, smtp } = verify
     /*
     return {
         email,
@@ -20,10 +19,7 @@ export const createOutput = (verify, email) => {
    
     return {
         email,
-        typo,
-        disposable,
-        mx,
-        smtp
+        verify
     }
 }
 export const sort_by_id = () => {
