@@ -16,6 +16,6 @@ app.get("/", (req, res)=> {
 })
 
 app.get("/api", info)
-app.listen(PORT, () => {
-    console.info(`API is up on port ${PORT}`);
+app.listen(port, () => {
+    console.info(`API is up on port ${port}`);
 });
