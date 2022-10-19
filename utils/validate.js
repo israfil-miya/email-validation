@@ -1,27 +1,5 @@
-// import { validate } from 'deep-email-validator'
 import emailVal from "../true-email-validator/index.js"
 
-export const createOutput = (verify, email) => {
-    // const { regex, typo, disposable, mx, smtp } = verify.validators
-    // const { typo, disposable, mx, smtp } = verify
-    /*
-    return {
-        email,
-        valid: verify.valid,
-        regex: regex.valid,
-        typo: typo.valid,
-        disposable: disposable.valid,
-        mx: mx.valid,
-        smtp: smtp.valid,
-        reason: (!verify.valid) ? verify.validators[verify.reason].reason : null
-    }
-    */
-   
-    return {
-        email,
-        verify
-    }
-}
 export const sort_by_id = () => {
     return function (elem1, elem2) {
         if (elem1.id < elem2.id) {
@@ -41,14 +19,12 @@ export const validate_emails = async (allEmails) => {
     await Promise.all(
         allEmails.map(async (email, index) => {
 
-            // let verify = await validate(email)
             let verify = await emailVal(email)
 
-            const result = createOutput(verify, email)
             if (verify.valid)
-                validEmails.push({ id: index + 1, emailDetail: result })
+                validEmails.push({ id: index + 1, emailDetail: verify })
             if (!verify.valid)
-                fakeEmails.push({ id: index + 1, emailDetail: result })
+                fakeEmails.push({ id: index + 1, emailDetail: verify })
 
         }),
     )
@@ -59,7 +35,7 @@ export const validate_emails = async (allEmails) => {
 }
 
 export const validateOne = async (email) => {
-    return createOutput(await emailVal(email), email)
+    return await emailVal(email)
     
 }
 
