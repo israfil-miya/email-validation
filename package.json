@@ -11,8 +11,11 @@
   "author": "Israfil Miya",
   "license": "ISC",
   "dependencies": {
-    "@exodus/email-deep-validator": "^3.4.0-2",
-    "deep-email-validator-fix": "^0.1.22",
-    "express": "^4.18.1"
+    "deep-email-validator": "^0.1.21",
+    "email-smtp-verificator": "^1.0.0",
+    "email-validator-pro": "^1.0.1",
+    "emailvalid": "^1.0.3",
+    "express": "^4.18.1",
+    "legit": "^1.0.9"
   }
 }

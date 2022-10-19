@@ -2,8 +2,12 @@ import express from "express";
 
 import validateBulk from "./api/validate-bulk.js";
 import validateOne from "./api/validate-one.js";
-
 import info from "./api/info.js";
+
+import emailVal from "./true-email-validator/index.js"
+console.log(await emailVal("gghfgfgjfdk@gmail.com"))
+
+
 const port = 8000
 const app = express()
 app.use(express.json());

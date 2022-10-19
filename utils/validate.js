@@ -1,7 +1,11 @@
-import { validate } from 'deep-email-validator-fix'
+// import { validate } from 'deep-email-validator'
+import emailVal from "../true-email-validator/index.js"
 
 export const createOutput = (verify, email) => {
-    const { regex, typo, disposable, mx, smtp } = verify.validators
+    console.log(verify)
+    // const { regex, typo, disposable, mx, smtp } = verify.validators
+    const { typo, disposable, mx, smtp } = verify
+    /*
     return {
         email,
         valid: verify.valid,
@@ -11,6 +15,15 @@ export const createOutput = (verify, email) => {
         mx: mx.valid,
         smtp: smtp.valid,
         reason: (!verify.valid) ? verify.validators[verify.reason].reason : null
+    }
+    */
+   
+    return {
+        email,
+        typo,
+        disposable,
+        mx,
+        smtp
     }
 }
 export const sort_by_id = () => {
@@ -32,7 +45,8 @@ export const validate_emails = async (allEmails) => {
     await Promise.all(
         allEmails.map(async (email, index) => {
 
-            let verify = await validate(email)
+            // let verify = await validate(email)
+            let verify = await emailVal(email)
 
             const result = createOutput(verify, email)
             if (verify.valid)
@@ -49,7 +63,7 @@ export const validate_emails = async (allEmails) => {
 }
 
 export const validateOne = async (email) => {
-    return createOutput(await validate(email), email)
+    return createOutput(await emailVal(email), email)
     
 }
 
