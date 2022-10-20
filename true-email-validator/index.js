@@ -1,9 +1,10 @@
-import typo from "./checks/typo.js"
-import smtp from "./checks/smtp.js"
-import dispos from "./checks/dispos.js"
-import mxrecord from "./checks/mx.js"
+import typo from './checks/typo.js'
+import smtp from './checks/smtp.js'
+import dispos from './checks/dispos.js'
+import mxrecord from './checks/mx.js'
 
 const Main = async (email) => {
+  try {
     let res = {}
     let errors = []
     let EmailTypo = typo(email)
@@ -12,12 +13,17 @@ const Main = async (email) => {
     let EmailSmtp = await smtp(email)
     let AllRes = [EmailTypo, EmailDisposable, EmailMx, EmailSmtp]
 
-    if (EmailTypo.error || EmailDisposable.error || EmailMx.error || EmailSmtp.error) {
-        AllRes.map(data => {
-            if (data.error) errors.push(data.error)
-        })
+    if (
+      EmailTypo.error ||
+      EmailDisposable.error ||
+      EmailMx.error ||
+      EmailSmtp.error
+    ) {
+      AllRes.map((data) => {
+        if (data.error) errors.push(data.error)
+      })
     }
-    
+
     if (errors.length) res.valid = false
     else res.valid = true
     res.email = email
@@ -27,8 +33,10 @@ const Main = async (email) => {
     res.smtp = EmailSmtp.smtp
     if (errors.length) res.errors = errors
 
-
     return res
+  } catch {
+    throw new Error('Unable to validate email')
+  }
 }
 
 export default Main

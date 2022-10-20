@@ -18,7 +18,7 @@ const dbConnect = () => {
         throw new Error(err)
       })
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 

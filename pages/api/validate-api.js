@@ -1,28 +1,24 @@
-import { Inngest } from 'inngest'
-export const client = new Inngest({
-  name: 'EMAILS VALIDATION SYSTEM',
-  eventKey: process.env.INNGEST_EVENT_KEY,
-})
+import { validate_emails } from '../../utils/validate.js'
 
 export default async function handle(req, res) {
-  const reqData = req.body
-  const { method } = req
+  try {
+    const data = req.body
+    const { method } = req
 
-  if (method == 'POST') {
-    if (reqData.fileBase64 && reqData.filename) {
-      client.send({
-        name: 'validate',
-        data: {
-          fileBase64: reqData.fileBase64,
-          filename: reqData.filename,
-          exportExt: reqData.exportExt,
-        },
-      })
-      res.status(200).json({ status: 'done' })
-    } else res.status(400).json({ message: 'Required data missing.' })
-  }
-  if (method == 'GET') {
-    res.status(400).json({ message: 'GET request not accepted.' })
+    if (method == 'POST') {
+      if (data.fileBase64 && data.filename) {
+        let fileBuffer = Buffer.from(data.fileBase64, 'base64')
+        let emailsJson = await validate_emails(fileBuffer, data.filename)
+        if (emailsJson.error) throw new Error(emailsJson.error)
+
+        res.status(200).json({ emailsJson })
+      } else res.status(400).json({ message: 'Required data missing.' })
+    }
+    if (method == 'GET') {
+      res.status(400).json({ message: 'GET request not accepted.' })
+    }
+  } catch (e) {
+    res.status(400).json({ message: e.message })
   }
 }
 

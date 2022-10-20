@@ -1,4 +1,4 @@
-import valEmail from "../true-email-validator"
+import valEmail from '../true-email-validator'
 import XLSX from 'xlsx'
 
 export const getEmails = (fileBuffer) => {
@@ -51,29 +51,29 @@ export const sort_by_id = () => {
   }
 }
 export const validate_emails = async (fileBuffer, filename) => {
-  let allEmails = getEmailsFromFile(fileBuffer, filename)
-  if (!allEmails) {
-    console.log(
-      'Unable to retrieve emails from the file. Check the file type. Currently suppoprts .txt .csv .xlsx .xls, if you are using Excel spreadsheet put "Email" or "Emails" as the column header without quotes',
+  try {
+    let allEmails = getEmailsFromFile(fileBuffer, filename)
+    let AllResult
+    let validEmails = []
+    let fakeEmails = []
+
+    await Promise.all(
+      allEmails.map(async (email, index) => {
+        let verify = await valEmail(email)
+
+        if (verify.valid)
+          validEmails.push({ id: index + 1, emailDetail: verify })
+        if (!verify.valid)
+          fakeEmails.push({ id: index + 1, emailDetail: verify })
+      }),
     )
-    return
+    validEmails = validEmails.sort(sort_by_id())
+    fakeEmails = fakeEmails.sort(sort_by_id())
+    AllResult = { validMails: validEmails, fakeMails: fakeEmails }
+    return AllResult
+  } catch {
+    return { error: 'Unable to validate emails' }
   }
-  let AllResult
-  let validEmails = []
-  let fakeEmails = []
-
-  await Promise.all(
-    allEmails.map(async (email, index) => {
-      let verify = await valEmail(email)
-
-      if (verify.valid) validEmails.push({ id: index + 1, emailDetail: verify })
-      if (!verify.valid) fakeEmails.push({ id: index + 1, emailDetail: verify })
-    }),
-  )
-  validEmails = validEmails.sort(sort_by_id())
-  fakeEmails = fakeEmails.sort(sort_by_id())
-  AllResult = { validMails: validEmails, fakeMails: fakeEmails }
-  return AllResult
 }
 
 export const validateOne = async (email) => {
