@@ -17,6 +17,10 @@
   },
   "dependencies": {
     "@exodus/email-deep-validator": "^3.4.0-2",
+    "email-domain-check": "^1.1.4",
+    "email-smtp-verificator": "^1.0.0",
+    "email-validator-pro": "^1.0.1",
+    "emailvalid": "^1.0.3",
     "inngest": "^0.4.4",
     "mongoose": "^6.6.5",
     "next": "12.3.1",
@@ -31,7 +35,6 @@
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1",
     "eslint-config-prettier": "^8.5.0",
-    "netlify-plugin-inngest": "^1.0.0",
     "prettier": "^2.7.1"
   }
 }

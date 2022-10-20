@@ -49,7 +49,7 @@ export default function Home() {
     channel.bind('exported', async (data) => {
       onExported(await data)
     })
-  }, [])
+  }, [channel, onExported])
 
   const fileSubmit = async (e) => {
     e.preventDefault()
@@ -129,14 +129,17 @@ export default function Home() {
   <div style="padding: 0px 15px 10px 15px">
   <center style="word-break: break-all; padding: 10px"><em>${oneEmail}</em></center>
     <div>
-      <span style="display: block"><strong>Is Email: </strong>${
-        resJson.wellFormed ? 'Yes' : 'No'
+      <span style="display: block"><strong>Typo: </strong>${
+        resJson.typo ? 'Correct' : 'Wrong'
       }</span>
-      <span style="display: block"><strong>Valid Domain: </strong>${
-        resJson.validDomain ? 'Yes' : 'No'
+      <span style="display: block"><strong>Disposable: </strong>${
+        resJson.disposable ? 'Yes' : 'No'
       }</span>
-      <span style="display: block"><strong>Valid Mailbox: </strong>${
-        resJson.validMailbox ? 'Yes' : 'No'
+      <span style="display: block"><strong>MX records: </strong>${
+        resJson.mx ? 'Found' : 'Not found'
+      }</span>
+      <span style="display: block"><strong>Smtp: </strong>${
+        resJson.smtp ? 'Found' : 'Not found'
       }</span>
     </div>
   </div>

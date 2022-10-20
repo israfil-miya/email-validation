@@ -1,5 +1,4 @@
-import EmailValidator from '@exodus/email-deep-validator'
-const emailValidator = new EmailValidator({ useOpenSSL: true })
+import valEmail from "../true-email-validator"
 import XLSX from 'xlsx'
 
 export const getEmails = (fileBuffer) => {
@@ -25,37 +24,7 @@ export const getEmails = (fileBuffer) => {
 
   return emails
 }
-export const error_or_success = (verify, email) => {
-  let return_text
-  if (verify.wellFormed && verify.validDomain && verify.validMailbox !== null) {
-    return_text = {
-      email,
-      valid: true,
-      wellFormed: verify.wellFormed,
-      validDomain: verify.validDomain,
-      validMailbox: verify.validMailbox,
-    }
-  } else {
-    if (email.includes('@yahoo.com') && verify.wellFormed && verify.validDomain)
-      return_text = {
-        email,
-        valid: true,
-        isYahoo: true,
-        wellFormed: verify.wellFormed,
-        validDomain: verify.validDomain,
-        validMailbox: verify.validMailbox,
-      }
-    else
-      return_text = {
-        email,
-        valid: false,
-        wellFormed: verify.wellFormed,
-        validDomain: verify.validDomain,
-        validMailbox: verify.validMailbox,
-      }
-  }
-  return return_text
-}
+
 export const getEmailsFromFile = (fileBuffer, filename) => {
   if (filename.includes('.xlsx') || filename.includes('.xls')) {
     return getEmails(fileBuffer)
@@ -95,11 +64,10 @@ export const validate_emails = async (fileBuffer, filename) => {
 
   await Promise.all(
     allEmails.map(async (email, index) => {
-      let verify = await emailValidator.verify(email)
+      let verify = await valEmail(email)
 
-      const result = error_or_success(verify, email)
-      if (result.valid) validEmails.push({ id: index + 1, emailDetail: result })
-      if (!result.valid) fakeEmails.push({ id: index + 1, emailDetail: result })
+      if (verify.valid) validEmails.push({ id: index + 1, emailDetail: verify })
+      if (!verify.valid) fakeEmails.push({ id: index + 1, emailDetail: verify })
     }),
   )
   validEmails = validEmails.sort(sort_by_id())
@@ -109,5 +77,5 @@ export const validate_emails = async (fileBuffer, filename) => {
 }
 
 export const validateOne = async (email) => {
-  return await emailValidator.verify(email)
+  return await valEmail(email)
 }

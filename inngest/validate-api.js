@@ -9,12 +9,15 @@ export const validate = createFunction(
 
     let fileBuffer = Buffer.from(data.fileBase64, 'base64')
     let emailsJson = await validate_emails(fileBuffer, data.filename)
-    await fetch(`${process.env.BASE_URL}/api/export-api`, {
-      method: 'POST',
-      body: JSON.stringify({ emailsJson, exportExtension: data.exportExt }),
-      headers: {
-        'Content-Type': 'application/json',
+    await fetch(
+      `${process.env.BASE_URL}/api/export-api`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ emailsJson, exportExtension: data.exportExt }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
   },
 )

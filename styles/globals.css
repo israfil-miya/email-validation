@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 html,
 body {
+  overflow-y: auto !important;
   padding: 10px;
   margin: 0;
   -webkit-text-size-adjust: none;
