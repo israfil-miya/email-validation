@@ -1,17 +1,16 @@
-import EmailValidation from 'emailvalid'
-const ev = new EmailValidation({ allowFreemail: true })
+import {checkEmail} from './temp-email-check/index.js'
 
 const dispos = (email) => {
 
     let res = {}
 
-    let allInfo = ev.check(email)
+    let allInfo = checkEmail(email)
 
-    if (!allInfo.valid) {
+    if (!allInfo) {
         res.error = "Email is disposable"
         res.disposable = true
     }
-    if(allInfo.valid) {
+    if(allInfo) {
         res.disposable = false
     }
     return res

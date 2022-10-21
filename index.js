@@ -4,6 +4,8 @@ import validateBulk from "./api/validate-bulk.js";
 import validateOne from "./api/validate-one.js";
 import info from "./api/info.js";
 
+import serverAcceptsEmail from 'server-accepts-email'
+
 const port = 8000
 const app = express()
 app.use(express.json());
