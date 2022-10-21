@@ -55,24 +55,32 @@ export const exportText = (json, ext) => {
   try {
     let resultString = ''
     if (json.fakeMails && json.validMails) {
-    json.validMails.map((element) => {
-      let data = `${element.id} - ${element.emailDetail.email} - Correct Typo - Not Disposable - Mx Records found - Smtp found - Valid\n`
-      resultString += data
-    })
-    json.fakeMails.map((element) => {
-      let data = `${element.id} - ${element.emailDetail.email} - ${element.emailDetail.typo ? 'Correct Typo' : 'Wrong Typo'
-        } - ${element.emailDetail.disposable ? 'Disposable' : 'Not Disposable'
-        } - ${element.emailDetail.mx ? 'Mx Records found' : 'Mx Records not found'
-        } - ${element.emailDetail.smtp ? 'Smtp found' : 'Smtp not found'
+      json.validMails.map((element) => {
+        let data = `${element.id} - ${element.emailDetail.email} - Correct Typo - Not Disposable - Mx Records found - Smtp found - Valid\n`
+        resultString += data
+      })
+      json.fakeMails.map((element) => {
+        let data = `${element.id} - ${element.emailDetail.email} - ${
+          element.emailDetail.typo ? 'Correct Typo' : 'Wrong Typo'
+        } - ${
+          element.emailDetail.disposable ? 'Disposable' : 'Not Disposable'
+        } - ${
+          element.emailDetail.mx ? 'Mx Records found' : 'Mx Records not found'
+        } - ${
+          element.emailDetail.smtp ? 'Smtp found' : 'Smtp not found'
         } - Fake\n`
-      resultString += data
-    })
-  } else {
-    json.map((element) => {
-      let data = `${element.id} - ${element.emailDetail.email} - Correct Typo - Not Disposable - Mx Records found - Smtp found - ${element.emailDetail.valid ? "Valid" : "fake"}\n`
-      resultString += data
-    })
-  }
+        resultString += data
+      })
+    } else {
+      json.map((element) => {
+        let data = `${element.id} - ${
+          element.emailDetail.email
+        } - Correct Typo - Not Disposable - Mx Records found - Smtp found - ${
+          element.emailDetail.valid ? 'Valid' : 'fake'
+        }\n`
+        resultString += data
+      })
+    }
     let buf = Buffer.from(resultString, 'utf-8')
     return buf
   } catch {

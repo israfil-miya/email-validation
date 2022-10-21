@@ -34,10 +34,13 @@ export default function Home() {
 
     document.getElementsByClassName('outputFile')[0].innerHTML = `
         <div style="padding: 0px 15px 10px 15px" className="downloadFile">
-        <center style="word-break: break-all; padding: 10px"><em>validated_emails_${resData.dataId}</em></center>
+        <center style="word-break: break-all; padding: 10px"><em>validated_emails_${
+          resData.dataId
+        }</em></center>
           <span style="display: block"><strong>Click one the bellow button to download !!</strong></span>
-          <a href="${resData.dataType + dbData.stringData
-      }" download="validated_emails_${resData.dataId}">
+          <a href="${
+            resData.dataType + dbData.stringData
+          }" download="validated_emails_${resData.dataId}">
             <button style="padding: 8px 10px">Download</button>
           </a>
         </div>
@@ -51,20 +54,20 @@ export default function Home() {
   }
 
   let exportToFIle = async (e, exportFileCategory) => {
-    e.stopPropagation();
-    e.preventDefault();
+    e.stopPropagation()
+    e.preventDefault()
     let exportExtension
     let emailsJson
 
-    if (exportFileCategory == "valid") {
+    if (exportFileCategory == 'valid') {
       exportExtension = onlyValidExportExt
       emailsJson = validatedEmailsJson.validMails
     }
-    if (exportFileCategory == "fake") {
+    if (exportFileCategory == 'fake') {
       exportExtension = onlyFakeExportExt
       emailsJson = validatedEmailsJson.fakeMails
     }
-    if (exportFileCategory == "all") {
+    if (exportFileCategory == 'all') {
       exportExtension = allEmailExportExt
       emailsJson = validatedEmailsJson
     }
@@ -76,8 +79,12 @@ export default function Home() {
       })
       return
     }
-    if(!emailsJson?.length && !emailsJson?.validMails?.length && !emailsJson?.fakeMails?.length) {
-      toast.error('Can\'t export an empty file !!', {
+    if (
+      !emailsJson?.length &&
+      !emailsJson?.validMails?.length &&
+      !emailsJson?.fakeMails?.length
+    ) {
+      toast.error("Can't export an empty file !!", {
         toastId: 'error',
         transition: Zoom,
       })
@@ -93,7 +100,7 @@ export default function Home() {
       method: 'POST',
       body: JSON.stringify({
         emailsJson,
-        exportExtension
+        exportExtension,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -105,11 +112,9 @@ export default function Home() {
 
     onExported(returnedData)
 
-
-    setAllEmailExportExt("txt")
-    setOnlyValidExportExt("txt")
-    setOnlyFakeExportExt("txt")
-
+    setAllEmailExportExt('txt')
+    setOnlyValidExportExt('txt')
+    setOnlyFakeExportExt('txt')
   }
 
   const fileSubmit = async (e) => {
@@ -126,7 +131,7 @@ export default function Home() {
       if (
         file.type != 'text/plain' &&
         file.type !=
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
         file.type != 'application/msexcel' &&
         file.type != 'text/csv'
       ) {
@@ -162,7 +167,7 @@ export default function Home() {
         if (data.message) throw new Error(data.message)
         setValidatedEmailsJson(data.emailsJson)
         toast.update(toastId.current, {
-          render: "Email validation done.",
+          render: 'Email validation done.',
           type: toast.TYPE.SUCCESS,
           autoClose: 2000,
           transition: Zoom,
@@ -210,14 +215,18 @@ export default function Home() {
   <div style="padding: 0px 15px 10px 15px">
   <center style="word-break: break-all; padding: 10px"><em>${oneEmail}</em></center>
     <div>
-      <span style="display: block"><strong>Typo: </strong>${resJson.typo ? 'Correct' : 'Wrong'
-        }</span>
-      <span style="display: block"><strong>Disposable: </strong>${resJson.disposable ? 'Yes' : 'No'
-        }</span>
-      <span style="display: block"><strong>MX records: </strong>${resJson.mx ? 'Found' : 'Not found'
-        }</span>
-      <span style="display: block"><strong>Smtp: </strong>${resJson.smtp ? 'Found' : 'Not found'
-        }</span>
+      <span style="display: block"><strong>Typo: </strong>${
+        resJson.typo ? 'Correct' : 'Wrong'
+      }</span>
+      <span style="display: block"><strong>Disposable: </strong>${
+        resJson.disposable ? 'Yes' : 'No'
+      }</span>
+      <span style="display: block"><strong>MX records: </strong>${
+        resJson.mx ? 'Found' : 'Not found'
+      }</span>
+      <span style="display: block"><strong>Smtp: </strong>${
+        resJson.smtp ? 'Found' : 'Not found'
+      }</span>
     </div>
   </div>
   `
@@ -285,101 +294,123 @@ export default function Home() {
         />
       </form>
       <div className={`${styles.outputFileDiv} difResults`}>
-        {
-          validatedEmailsJson.validMails && (
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", padding: "20px" }} className='exportForms'>
+        {validatedEmailsJson.validMails && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              padding: '20px',
+            }}
+            className="exportForms"
+          >
+            <form onSubmit={(e) => exportToFIle(e, 'valid')}>
+              <div className="onlyValid">
+                <strong>
+                  <p>Valid ({validatedEmailsJson.validMails.length})</p>
+                </strong>
 
-              <form onSubmit={e => exportToFIle(e, "valid")}>
-                <div className='onlyValid'>
-                  <strong><p>Valid ({validatedEmailsJson.validMails.length})</p></strong>
-
-                  <select
-                    style={{ padding: "5px" }}
-                    onChange={(e) => setOnlyValidExportExt(e.target.value)}
-                  >
-                    <option value="txt">.txt</option>
-                    <option value="xlsx">.xlsx</option>
-                    <option value="xls">.xls</option>
-                    <option value="csv">.csv</option>
-                  </select>
-                  <br />
-                  {
-                    (validatedEmailsJson.validMails.length) ? (<input
-                      style={{ padding: '8px 10px', fontWeight: 'bold' }}
-                      value="Export"
-                      type="submit"
-                    />) : (<input
-                      style={{ padding: '8px 10px', fontWeight: 'bold' }}
-                      value="Can't Export"
-                      type="submit"
-                      disabled
-                    />)
-                  }
-                </div>
-              </form>
-              <form onSubmit={e => exportToFIle(e, "fake")}>
-                <div className='onlyFake'>
-                  <strong><p>Fake ({validatedEmailsJson.fakeMails.length})</p></strong>
-                  <select
-                    style={{ padding: "5px" }}
-                    onChange={(e) => setOnlyFakeExportExt(e.target.value)}
-                  >
-                    <option value="txt">.txt</option>
-                    <option value="xlsx">.xlsx</option>
-                    <option value="xls">.xls</option>
-                    <option value="csv">.csv</option>
-                  </select>
-                  <br />
-                  {
-                    (validatedEmailsJson.fakeMails.length) ? (<input
-                      style={{ padding: '8px 10px', fontWeight: 'bold' }}
-                      value="Export"
-                      type="submit"
-                    />) : (<input
-                      style={{ padding: '8px 10px', fontWeight: 'bold' }}
-                      value="Can't Export"
-                      type="submit"
-                      disabled
-                    />)
-                  }
-                </div>
-              </form>
-              <form onSubmit={e => exportToFIle(e, "all")}>
-                <div className='allEmail'>
-                  <strong><p>All ({validatedEmailsJson.validMails.length + validatedEmailsJson.fakeMails.length})</p></strong>
-                  <select
-                    style={{ padding: "5px" }}
-                    onChange={(e) => setAllEmailExportExt(e.target.value)}
-
-                  >
-                    <option value="txt">.txt</option>
-                    <option value="xlsx">.xlsx</option>
-                    <option value="xls">.xls</option>
-                    <option value="csv">.csv</option>
-                  </select>
-                  <br />
-                  {
-                    ((validatedEmailsJson.validMails.length + validatedEmailsJson.fakeMails.length)) ? (<input
-                      style={{ padding: '8px 10px', fontWeight: 'bold' }}
-                      value="Export"
-                      type="submit"
-                    />) : (<input
-                      style={{ padding: '8px 10px', fontWeight: 'bold' }}
-                      value="Can't Export"
-                      type="submit"
-                      disabled
-                    />)
-                  }
-                </div>
-              </form>
-            </div>
-          )
-        }{
-          !validatedEmailsJson.validMails && (<p className={`${styles.noFileP} isNoOutput`}>
+                <select
+                  style={{ padding: '5px' }}
+                  onChange={(e) => setOnlyValidExportExt(e.target.value)}
+                >
+                  <option value="txt">.txt</option>
+                  <option value="xlsx">.xlsx</option>
+                  <option value="xls">.xls</option>
+                  <option value="csv">.csv</option>
+                </select>
+                <br />
+                {validatedEmailsJson.validMails.length ? (
+                  <input
+                    style={{ padding: '8px 10px', fontWeight: 'bold' }}
+                    value="Export"
+                    type="submit"
+                  />
+                ) : (
+                  <input
+                    style={{ padding: '8px 10px', fontWeight: 'bold' }}
+                    value="Can't Export"
+                    type="submit"
+                    disabled
+                  />
+                )}
+              </div>
+            </form>
+            <form onSubmit={(e) => exportToFIle(e, 'fake')}>
+              <div className="onlyFake">
+                <strong>
+                  <p>Fake ({validatedEmailsJson.fakeMails.length})</p>
+                </strong>
+                <select
+                  style={{ padding: '5px' }}
+                  onChange={(e) => setOnlyFakeExportExt(e.target.value)}
+                >
+                  <option value="txt">.txt</option>
+                  <option value="xlsx">.xlsx</option>
+                  <option value="xls">.xls</option>
+                  <option value="csv">.csv</option>
+                </select>
+                <br />
+                {validatedEmailsJson.fakeMails.length ? (
+                  <input
+                    style={{ padding: '8px 10px', fontWeight: 'bold' }}
+                    value="Export"
+                    type="submit"
+                  />
+                ) : (
+                  <input
+                    style={{ padding: '8px 10px', fontWeight: 'bold' }}
+                    value="Can't Export"
+                    type="submit"
+                    disabled
+                  />
+                )}
+              </div>
+            </form>
+            <form onSubmit={(e) => exportToFIle(e, 'all')}>
+              <div className="allEmail">
+                <strong>
+                  <p>
+                    All (
+                    {validatedEmailsJson.validMails.length +
+                      validatedEmailsJson.fakeMails.length}
+                    )
+                  </p>
+                </strong>
+                <select
+                  style={{ padding: '5px' }}
+                  onChange={(e) => setAllEmailExportExt(e.target.value)}
+                >
+                  <option value="txt">.txt</option>
+                  <option value="xlsx">.xlsx</option>
+                  <option value="xls">.xls</option>
+                  <option value="csv">.csv</option>
+                </select>
+                <br />
+                {validatedEmailsJson.validMails.length +
+                validatedEmailsJson.fakeMails.length ? (
+                  <input
+                    style={{ padding: '8px 10px', fontWeight: 'bold' }}
+                    value="Export"
+                    type="submit"
+                  />
+                ) : (
+                  <input
+                    style={{ padding: '8px 10px', fontWeight: 'bold' }}
+                    value="Can't Export"
+                    type="submit"
+                    disabled
+                  />
+                )}
+              </div>
+            </form>
+          </div>
+        )}
+        {!validatedEmailsJson.validMails && (
+          <p className={`${styles.noFileP} isNoOutput`}>
             <strong>No file to export !!</strong>
-          </p>)
-        }
-
+          </p>
+        )}
       </div>
       <div className={`${styles.outputFileDiv} outputFile`}>
         <p className={`${styles.noFileP} isNoOutputFile`}>
