@@ -1,85 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Emails Validator API</title>
-</head>
-<style>
+  </head>
+  <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
     * {
-        margin: 0;
-        padding: 0;
-        font-family: 'Fira Code', monospace;
+      margin: 0;
+      padding: 0;
+      font-family: 'Fira Code', monospace;
     }
 
     #main {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
     }
 
     #apiJson {
-        color: white;
-        border-radius: 6px;
-        padding: 25px;
-        background-color: black;
-        white-space: pre-wrap;
-        max-width: 100%;
-        height: auto;
-        font-size: 70%;
+      color: white;
+      border-radius: 6px;
+      padding: 25px;
+      background-color: black;
+      white-space: pre-wrap;
+      max-width: 100%;
+      height: auto;
+      font-size: 70%;
     }
 
     h4 {
-        padding: 20px;
-        color: black;
-        text-align: center;
-        text-decoration: underline;
+      padding: 20px;
+      color: black;
+      text-align: center;
+      text-decoration: underline;
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <div id="main">
-        <h4>Emails Validator API</h4>
-        <pre id="apiJson"></pre>
+      <h4>Emails Validator API</h4>
+      <pre id="apiJson"></pre>
     </div>
 
     <script>
-        var data = {
-            "author": "MD Israfil Miya",
-            "github": "https://github.com/GitPro10/emails-validator/tree/api",
-            "routes": [
-                {
-                    "name": "info",
-                    "path": "/api",
-                    "method": "GET",
-                    "description": "gives you information about this api"
-                },
-                {
-                    "name": "validate-one",
-                    "path": "/api/validate-one",
-                    "method": "POST",
-                    "description": "used to validate single/one email"
-                },
-                {
-                    "name": "validate-bulk",
-                    "path": "/api/validate-bulk",
-                    "method": "POST",
-                    "description": "used to validate multiple/bulk email"
-                }
-            ],
-            "homepage": "/",
-            "thanks": "Thanks to all my users, for using this API. This API is completely free to use. I am grateful."
-        };
+      var data = {
+        author: 'MD Israfil Miya',
+        github: 'https://github.com/GitPro10/emails-validator/tree/api',
+        routes: [
+          {
+            name: 'info',
+            path: '/api',
+            method: 'GET',
+            description: 'gives you information about this api',
+          },
+          {
+            name: 'validate-one',
+            path: '/api/validate-one',
+            method: 'POST',
+            description: 'used to validate single/one email',
+          },
+          {
+            name: 'validate-bulk',
+            path: '/api/validate-bulk',
+            method: 'POST',
+            description: 'used to validate multiple/bulk email',
+          },
+        ],
+        homepage: '/',
+        thanks:
+          'Thanks to all my users, for using this API. This API is completely free to use. I am grateful.',
+      }
 
-        document.getElementById("apiJson").innerHTML = JSON.stringify(data, null, 4);
-
+      document.getElementById('apiJson').innerHTML = JSON.stringify(
+        data,
+        null,
+        4,
+      )
     </script>
-</body>
-
+  </body>
 </html>

@@ -6,7 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format:fix": "prettier --write --ignore-path .gitignore README.md ."
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "author": "Israfil Miya",
   "license": "ISC",
@@ -16,5 +21,8 @@
     "express": "^4.18.1",
     "node-range": "^0.1.0",
     "underscore": "^1.13.6"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
   }
 }
