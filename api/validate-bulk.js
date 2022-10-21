@@ -11,21 +11,17 @@ const validate_bulk = async (req, res) => {
       const result = await validate_emails(data.emails)
       const { validMails, fakeMails } = result
       data.emails.length == 1
-        ? res
-            .status(200)
-            .json({
-              validMails,
-              fakeMails,
-              timestamp: new Date().toISOString(),
-              note: 'It is recommended to use /api/validate-one for single email validation.',
-            })
-        : res
-            .status(200)
-            .json({
-              validMails,
-              fakeMails,
-              timestamp: new Date().toISOString(),
-            })
+        ? res.status(200).json({
+            validMails,
+            fakeMails,
+            timestamp: new Date().toISOString(),
+            note: 'It is recommended to use /api/validate-one for single email validation.',
+          })
+        : res.status(200).json({
+            validMails,
+            fakeMails,
+            timestamp: new Date().toISOString(),
+          })
     }
   } catch {
     res.status(500).json({ error: 'Server error.' })
