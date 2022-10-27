@@ -32,26 +32,6 @@ export default function Account({ userData }) {
     }
   }, [userData.admin_id, userData.api_key, userData.balance, router])
 
-  const generateAPIKey = async () => {
-    let queryString =
-      'UPDATE `users` SET `api_key` = ? WHERE `users`.`_id` = ?;'
-    let queryParams = [session.user.id, session.user.id]
-    const res = await fetch('/api/queryDB-api', {
-      method: 'POST',
-      body: JSON.stringify({ queryString, queryParams }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    const resData = await res.json()
-    let confirmationData = resData.result
-
-    if (confirmationData?.affectedRows) {
-      setApiKey(session.user.id)
-    } else {
-      router.replace('/account?error=Unable to create api key')
-    }
-  }
 
   return (
     <div className={styles.main}>
@@ -71,14 +51,8 @@ export default function Account({ userData }) {
         )}
         <button onClick={() => router.push('/credits')}>Top-Up</button>
         <br />
-        {apiKey ? (
-          <>
-            <strong>API Key: </strong>
-            <input readOnly value={apiKey} type="text" />
-          </>
-        ) : (
-          <button onClick={() => generateAPIKey()}>Generate API Key</button>
-        )}
+        <strong>API Key: </strong>
+        <input readOnly value={apiKey} type="text" />
         <br />
         {adminId && (
           <>

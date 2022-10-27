@@ -50,8 +50,8 @@ export default async function handle(req, res) {
           const hashedPass = await hashPassword(data.password)
           let UID = UUID()
           let queryString =
-            'INSERT INTO `users` (`_id`, `name`, `email`, `password`) VALUES (?, ?, ?, ?);'
-          let queryParams = [UID, data.name, data.email, hashedPass]
+            'INSERT INTO `users` (`_id`, `name`, `email`, `password`, `api_key`) VALUES (?, ?, ?, ?, ?);'
+          let queryParams = [UID, data.name, data.email, hashedPass, UID]
           const confirmationData = await query({
             query: queryString,
             values: queryParams,

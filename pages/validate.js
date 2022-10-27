@@ -1,9 +1,9 @@
 import styles from '../styles/Validate.module.css'
 import { useState, useRef } from 'react'
 import { toast, Zoom } from 'react-toastify'
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 
-export default function Validate() {
+export default function Validate({userData}) {
   const [file, setFile] = useState()
   const [validatedEmailsJson, setValidatedEmailsJson] = useState([])
   const [allEmailExportExt, setAllEmailExportExt] = useState('txt')
@@ -11,7 +11,7 @@ export default function Validate() {
   const [onlyFakeExportExt, setOnlyFakeExportExt] = useState('txt')
   const toastId = useRef(null)
   const [oneEmail, setOneEmail] = useState('')
-  const { data: session } = useSession()
+ 
 
   const onExported = async (resData) => {
     let dbDataRaw = await fetch(`/api/getExportData-api`, {
@@ -36,13 +36,11 @@ export default function Validate() {
 
     document.getElementsByClassName('outputFile')[0].innerHTML = `
         <div style="padding: 0px 15px 10px 15px" className="downloadFile">
-        <center style="word-break: break-all; padding: 10px"><em>validated_emails_${
-          resData.dataId
-        }</em></center>
-          <span style="display: block"><strong>Click one the bellow button to download !!</strong></span>
-          <a href="${
-            resData.dataType + dbData.string_data
-          }" download="validated_emails_${resData.dataId}">
+        <center style="word-break: break-all; padding: 10px"><em>validated_emails_${resData.dataId
+      }</em></center>
+          <span style="display: block"><strong>Click on the bellow button to download !!</strong></span>
+          <a href="${resData.dataType + dbData.string_data
+      }" download="validated_emails_${resData.dataId}">
             <button style="padding: 8px 10px">Download</button>
           </a>
         </div>
@@ -133,7 +131,7 @@ export default function Validate() {
       if (
         file.type != 'text/plain' &&
         file.type !=
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' &&
         file.type != 'application/msexcel' &&
         file.type != 'text/csv'
       ) {
@@ -158,12 +156,11 @@ export default function Validate() {
       reader.readAsDataURL(file)
       reader.onload = async function (evt) {
         const fileBase64 = evt.target.result.split(',')[1]
-        let rawdata = await fetch(`/api/validate-api`, {
+        let rawdata = await fetch(`/api/getEmails-api`, {
           method: 'POST',
           body: JSON.stringify({
             fileBase64,
-            filename: file.name,
-            id: session.user.id,
+            filename: file.name
           }),
           headers: {
             'Content-Type': 'application/json',
@@ -171,7 +168,22 @@ export default function Validate() {
         })
         let data = await rawdata.json()
         if (data.message) throw new Error(data.message)
-        setValidatedEmailsJson(data.emailsJson)
+
+        let validEmails = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-bulk`, {
+          method: 'POST',
+          body: JSON.stringify({
+            emails: data.emailsJson
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.NEXT_PUBLIC_API_KEY || userData.api_key
+          },
+        })
+        let jsonData = await validEmails.json()
+        console.log(jsonData)
+        if (jsonData.error) throw new Error(jsonData.error)
+
+        setValidatedEmailsJson(jsonData)
         toast.update(toastId.current, {
           render: 'Email validation done.',
           type: toast.TYPE.SUCCESS,
@@ -208,35 +220,32 @@ export default function Validate() {
         })
         return
       }
-      let res = await fetch(`/api/validateOne-api`, {
+      let res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/validate-one`, {
         method: 'POST',
-        body: JSON.stringify({ oneEmail, id: session.user.id }),
+        body: JSON.stringify({ email: oneEmail }),
         headers: {
           'Content-Type': 'application/json',
+          'x-api-key': process.env.NEXT_PUBLIC_API_KEY || userData.api_key
         },
       })
       let resJson = await res.json()
-      if (resJson.message) throw new Error(resJson.message)
+      console.log(resJson)
+      if (resJson.error) throw new Error(resJson.error)
       document.getElementsByClassName('output')[0].innerHTML = `
   <div style="padding: 0px 15px 10px 15px">
   <center style="word-break: break-all; padding: 10px"><em>${oneEmail}</em></center>
     <div>
-      <span style="display: block"><strong>Typo: </strong>${
-        resJson.typo ? 'Correct' : 'Wrong'
-      }</span>
-      <span style="display: block"><strong>Disposable: </strong>${
-        resJson.disposable ? 'Yes' : 'No'
-      }</span>
-      <span style="display: block"><strong>MX records: </strong>${
-        resJson.mx ? 'Found' : 'Not found'
-      }</span>
-      <span style="display: block"><strong>Smtp: </strong>${
-        resJson.smtp ? 'Found' : 'Not found'
-      }</span>
+      <span style="display: block"><strong>Typo: </strong>${resJson.typo ? 'Correct' : 'Wrong'
+        }</span>
+      <span style="display: block"><strong>Disposable: </strong>${resJson.disposable ? 'Yes' : 'No'
+        }</span>
+      <span style="display: block"><strong>MX records: </strong>${resJson.mx ? 'Found' : 'Not found'
+        }</span>
+      <span style="display: block"><strong>Smtp: </strong>${resJson.smtp ? 'Found' : 'Not found'
+        }</span>
       <br />
-      <span style="display: block"><strong>Email: </strong>${
-        (resJson.smtp && resJson.mx && !resJson.disposable && resJson.typo) ? 'Valid' : 'Invalid'
-      }</span>
+      <span style="display: block"><strong>Email: </strong>${resJson.valid ? 'Valid' : 'Invalid'
+        }</span>
     </div>
   </div>
   `
@@ -398,7 +407,7 @@ export default function Validate() {
                 </select>
                 <br />
                 {validatedEmailsJson.validMails.length +
-                validatedEmailsJson.fakeMails.length ? (
+                  validatedEmailsJson.fakeMails.length ? (
                   <input
                     style={{ padding: '8px 10px', fontWeight: 'bold' }}
                     value="Export"
@@ -429,4 +438,35 @@ export default function Validate() {
       </div>
     </div>
   )
+}
+
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+
+  console.log("session", session.user.id)
+
+  let queryString = 'SELECT `api_key` FROM `users` WHERE `_id` = ?;'
+  let queryParams = [session.user.id]
+  const res = await fetch(process.env.NEXTAUTH_URL + '/api/queryDB-api', {
+    method: 'POST',
+    body: JSON.stringify({ queryString, queryParams }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  const resData = await res.json()
+  console.log("resData", resData)
+  let [data] = resData.result
+  console.log("mydata", data)
+
+  let returnData = {
+    api_key: data.api_key,
+  }
+
+  return {
+    props: {
+      userData: returnData
+    },
+  }
 }
