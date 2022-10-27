@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emails Validator API</title>
-  </head>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: 'Fira Code', monospace;
-    }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emails Validator API</title>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 
-    #main {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Code', monospace;
+  }
 
-    #apiJson {
-      color: white;
-      border-radius: 6px;
-      padding: 25px;
-      background-color: black;
-      white-space: pre-wrap;
-      max-width: 100%;
-      height: auto;
-      font-size: 70%;
-    }
+  #main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 
-    h4 {
-      padding: 20px;
-      color: black;
-      text-align: center;
-      text-decoration: underline;
-    }
-  </style>
+  #apiJson {
+    color: white;
+    border-radius: 6px;
+    padding: 25px;
+    background-color: black;
+    white-space: pre-wrap;
+    max-width: 100%;
+    height: auto;
+    font-size: 70%;
+  }
 
-  <body>
-    <div id="main">
-      <h4>Emails Validator API</h4>
-      <pre id="apiJson"></pre>
-    </div>
+  h4 {
+    padding: 20px;
+    color: black;
+    text-align: center;
+    text-decoration: underline;
+  }
+</style>
 
-    <script>
-      var data = {
-      author: 'Ezzaky',
+<body>
+  <div id="main">
+    <h4>Emails Validator API</h4>
+    <pre id="apiJson"></pre>
+  </div>
+
+  <script>
+    var data = {
       routes: [
         {
           name: 'info',
@@ -75,11 +75,12 @@
       madeBy: "MD Israfil Miya"
     }
 
-      document.getElementById('apiJson').innerHTML = JSON.stringify(
-        data,
-        null,
-        4,
-      )
-    </script>
-  </body>
+    document.getElementById('apiJson').innerHTML = JSON.stringify(
+      data,
+      null,
+      4,
+    )
+  </script>
+</body>
+
 </html>

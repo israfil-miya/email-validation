@@ -1,7 +1,6 @@
 const info = (req, res) => {
   try {
     const data = {
-      author: 'Ezzaky',
       routes: [
         {
           name: 'info',
