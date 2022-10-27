@@ -16,15 +16,19 @@
     "trailingComma": "all"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "email-smtp-verificator": "^1.0.0",
     "email-validator-pro": "^1.0.1",
-    "mongoose": "^6.6.5",
+    "mysql2": "^2.3.3",
     "next": "12.3.1",
+    "next-auth": "^4.15.0",
+    "nextjs-progressbar": "^0.0.16",
     "node-range": "^0.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-toastify": "^9.0.8",
     "underscore": "^1.13.6",
+    "uuid": "^9.0.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

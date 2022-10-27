@@ -1,5 +1,6 @@
 import valEmail from '../true-email-validator'
 import XLSX from 'xlsx'
+import { creditAmount, minusCredit } from './credits.js'
 
 export const getEmails = (fileBuffer) => {
   const workbook = XLSX.read(fileBuffer)
@@ -26,10 +27,14 @@ export const getEmails = (fileBuffer) => {
 }
 
 export const getEmailsFromFile = (fileBuffer, filename) => {
-  if (filename.includes('.xlsx') || filename.includes('.xls')) {
+  if (
+    filename.includes('.xlsx') ||
+    filename.includes('.xls') ||
+    filename.includes('.csv')
+  ) {
     return getEmails(fileBuffer)
   }
-  if (filename.includes('.txt') || filename.includes('.csv')) {
+  if (filename.includes('.txt')) {
     let text = fileBuffer.toString('utf8')
     let textByLine = text.split('\r\n' || '\n')
     textByLine = textByLine.filter((e) => {
@@ -50,9 +55,18 @@ export const sort_by_id = () => {
     }
   }
 }
-export const validate_emails = async (fileBuffer, filename) => {
+export const validate_emails = async (fileBuffer, filename, id) => {
   try {
     let allEmails = getEmailsFromFile(fileBuffer, filename)
+    let balance = await creditAmount(id)
+
+    if (balance < allEmails.length || !balance) {
+      throw new Error('Not enough credit in account')
+    } else {
+      let chargeCredit = await minusCredit(id, balance, allEmails.length)
+      if (!chargeCredit) throw new Error('Unable to update credit')
+    }
+
     let AllResult
     let validEmails = []
     let fakeEmails = []
@@ -71,8 +85,8 @@ export const validate_emails = async (fileBuffer, filename) => {
     fakeEmails = fakeEmails.sort(sort_by_id())
     AllResult = { validMails: validEmails, fakeMails: fakeEmails }
     return AllResult
-  } catch {
-    return { error: 'Unable to validate emails' }
+  } catch (e) {
+    return { error: e.message }
   }
 }
 

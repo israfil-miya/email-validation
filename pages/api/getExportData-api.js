@@ -1,6 +1,4 @@
-import dbConnect from '../../db/dbConnect.js'
-dbConnect()
-import exportFileData from '../../db/ExportSchema.js'
+import query from '../../lib/db.js'
 
 export default async function handle(req, res) {
   try {
@@ -9,8 +7,10 @@ export default async function handle(req, res) {
 
     if (method == 'POST') {
       if (reqData.id) {
-        const dbData = await exportFileData.findById(reqData.id)
-        res.status(200).json({ dbData })
+        let queryString = 'SELECT * FROM exports WHERE ID = ?'
+        let queryParams = [reqData.id]
+        let [dbdata] = await query({ query: queryString, values: queryParams })
+        res.status(200).json({ dbData: dbdata })
       } else res.status(400).json({ message: 'Required data missing.' })
     }
     if (method == 'GET') {

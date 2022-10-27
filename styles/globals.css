@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 html,
 body {
   overflow-y: auto !important;
@@ -15,5 +15,5 @@ a {
 * {
   overflow: hidden;
   box-sizing: border-box;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }

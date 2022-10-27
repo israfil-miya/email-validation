@@ -1,7 +1,5 @@
 import { exportToFile } from '../../utils/export.js'
-import dbConnect from '../../db/dbConnect.js'
-dbConnect()
-import exportFileData from '../../db/ExportSchema.js'
+import query from '../../lib/db.js'
 
 export default async function handle(req, res) {
   try {
@@ -33,16 +31,35 @@ export default async function handle(req, res) {
             break
         }
 
-        const insertedData = await exportFileData.findOneAndUpdate(
-          { stringData: exportFileBase64 },
-          { stringData: exportFileBase64 },
-          { upsert: true, new: true },
-        )
-
-        res.status(200).json({
-          dataId: insertedData._id,
-          dataType,
-        })
+        let queryString = 'SELECT * FROM exports WHERE string_data = ?'
+        let queryParams = [exportFileBase64]
+        let [dbdata] = await query({ query: queryString, values: queryParams })
+        if (dbdata) {
+          res.status(200).json({
+            dataId: dbdata.ID,
+            dataType,
+          })
+        } else {
+          let queryString =
+            'INSERT INTO `exports` ( `string_data` ) VALUES (?);'
+          let queryParams = [exportFileBase64]
+          let confirmationData = await query({
+            query: queryString,
+            values: queryParams,
+          })
+          if (confirmationData?.affectedRows) {
+            let queryString = 'SELECT * FROM exports WHERE string_data = ?'
+            let queryParams = [exportFileBase64]
+            let [dbdata] = await query({
+              query: queryString,
+              values: queryParams,
+            })
+            res.status(200).json({
+              dataId: dbdata.ID,
+              dataType,
+            })
+          } else res.status(400).json({ message: 'Unable to export data.' })
+        }
       } else res.status(400).json({ message: 'Required data missing.' })
     }
     if (method == 'GET') {
