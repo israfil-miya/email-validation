@@ -1,8 +1,7 @@
 const info = (req, res) => {
   try {
     const data = {
-      author: 'MD Israfil Miya',
-      github: 'https://github.com/GitPro10/emails-validator/tree/api',
+      author: 'Ezzaky',
       routes: [
         {
           name: 'info',
@@ -24,8 +23,7 @@ const info = (req, res) => {
         },
       ],
       homepage: '/',
-      thanks:
-        'Thanks to all my users, for using this API. This API is completely free to use. I am grateful.',
+      madeBy: "MD Israfil Miya"
     }
     res.status(200).json(data)
   } catch {

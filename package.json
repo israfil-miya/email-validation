@@ -16,10 +16,13 @@
   "author": "Israfil Miya",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "email-smtp-verificator": "^1.0.0",
     "email-validator-pro": "^1.0.1",
     "express": "^4.18.1",
+    "mysql2": "^2.3.3",
     "node-range": "^0.1.0",
+    "server-accepts-email": "^1.11.1",
     "underscore": "^1.13.6"
   },
   "devDependencies": {
