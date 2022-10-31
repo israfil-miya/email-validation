@@ -10,8 +10,8 @@ export default function Dashboard({ usersData }) {
 
   useEffect(() => {
     const { error, success } = router.query
-    console.log(success)
-    console.log(error)
+    // console.log(success)
+    // console.log(error)
     if (error) {
       toast.error(error, { toastId: 'error' })
       router.replace('/dashboard')

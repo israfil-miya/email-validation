@@ -16,7 +16,7 @@ export default function Account({ userData }) {
   const { data: session } = useSession()
 
   useEffect(() => {
-    console.log("the user data", userData)
+    // console.log("the user data", userData)
     setBalance(userData.balance)
     setApiKey(userData.api_key)
     setAdminId(userData.admin_id)
@@ -31,7 +31,6 @@ export default function Account({ userData }) {
       router.replace('/account')
     }
   }, [userData.admin_id, userData.api_key, userData.balance, router])
-
 
   return (
     <div className={styles.main}>
@@ -61,9 +60,15 @@ export default function Account({ userData }) {
           </>
         )}
 
-        <button onClick={() => signOut({
-          callbackUrl: `/register?error=Successfully logged out`
-        })}>Log Out</button>
+        <button
+          onClick={() =>
+            signOut({
+              callbackUrl: `/register?error=Successfully logged out`,
+            })
+          }
+        >
+          Log Out
+        </button>
       </div>
     </div>
   )
@@ -72,7 +77,7 @@ export default function Account({ userData }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context)
 
-  console.log("session", session.user.id)
+  // console.log("session", session.user.id)
 
   let queryString = 'SELECT `balance`, `api_key` FROM `users` WHERE `_id` = ?;'
   let queryParams = [session.user.id]
@@ -84,9 +89,9 @@ export async function getServerSideProps(context) {
     },
   })
   const resData = await res.json()
-  console.log("resData", resData)
+  // console.log("resData", resData)
   let [data] = resData.result
-  console.log("mydata", data)
+  // console.log("mydata", data)
 
   let returnData = {
     balance: data.balance,
@@ -96,7 +101,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      userData: returnData
+      userData: returnData,
     },
   }
 }

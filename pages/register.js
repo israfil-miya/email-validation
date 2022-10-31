@@ -65,9 +65,9 @@ export default function Register() {
       return
     }
 
-console.log("my name", name)
-console.log("my password", password)
-console.log("my email", email)
+    // console.log("my name", name)
+    // console.log("my password", password)
+    // console.log("my email", email)
 
     const result = await signIn('signup', {
       redirect: false,

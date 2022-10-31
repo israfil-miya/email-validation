@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8001",
     "lint": "next lint",
     "format": "prettier --check --ignore-path .gitignore README.md .",
     "format:fix": "prettier --write --ignore-path .gitignore README.md ."

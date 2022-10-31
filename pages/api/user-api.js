@@ -65,7 +65,7 @@ export default async function handle(req, res) {
               password: hashedPass,
             })
           } else {
-            console.log("That one")
+            // console.log("That one")
             res
               .status(400)
               .json({ error: true, message: 'Something went wrong' })
@@ -73,7 +73,7 @@ export default async function handle(req, res) {
         }
       }
       if (!data.signup && !data.signin) {
-        console.log("hereeee")
+        // console.log("hereeee")
         res.status(400).json({ error: true, message: 'Not valid POST request' })
       }
       break
