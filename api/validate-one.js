@@ -2,8 +2,7 @@ import { validateOne } from '../utils/validate.js'
 import { creditAmount, minusCredit } from '../utils/credits.js'
 const validate_one = async (req, res) => {
   try {
-
-    let apiKey = req.header("x-api-key")
+    let apiKey = req.header('x-api-key')
 
     const data = req.body
     if (!data || !data.email || typeof data.email !== 'string') {
@@ -12,7 +11,6 @@ const validate_one = async (req, res) => {
     }
 
     if (typeof data.email === 'string') {
-
       let balance = await creditAmount(apiKey)
       if (!balance) {
         res.status(400).json({ error: 'Not enough credit in account' })
@@ -29,8 +27,8 @@ const validate_one = async (req, res) => {
       verify.timestamp = new Date().toISOString()
       res.status(200).json(verify)
     }
-  } catch {
-    res.status(500).json({ error: 'Server error.' })
+  } catch (e) {
+    res.status(500).json({ error: `Server error: ${e}` })
   }
 }
 

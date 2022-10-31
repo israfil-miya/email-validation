@@ -1,25 +1,26 @@
-import query from "../lib/db.js"
+import query from '../lib/db.js'
 export async function minusCredit(id, balance, amount) {
-    let queryString = "UPDATE `users` SET `balance` = ? WHERE `users`.`_id` = ?;"
-    let queryParams = [balance - amount, id]
+  let queryString = 'UPDATE `users` SET `balance` = ? WHERE `users`.`_id` = ?;'
+  let queryParams = [balance - amount, id]
 
-    let confirmationData = await query({ query: queryString, values: queryParams })
+  let confirmationData = await query({
+    query: queryString,
+    values: queryParams,
+  })
 
-    if (confirmationData?.affectedRows) {
-        return true
-    }
-    else {
-        return false
-    }
+  if (confirmationData?.affectedRows) {
+    return true
+  } else {
+    return false
+  }
 }
 export async function creditAmount(id) {
-    let queryString = "SELECT `balance` FROM `users` WHERE `_id` = ?;"
-    let queryParams = [id]
+  let queryString = 'SELECT `balance` FROM `users` WHERE `_id` = ?;'
+  let queryParams = [id]
 
-    let [data] = await query({ query: queryString, values: queryParams })
+  let [data] = await query({ query: queryString, values: queryParams })
 
-    if (data?.balance) {
-        return data.balance
-    }
-    else return false
+  if (data?.balance) {
+    return data.balance
+  } else return false
 }

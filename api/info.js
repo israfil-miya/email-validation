@@ -22,7 +22,7 @@ const info = (req, res) => {
         },
       ],
       homepage: '/',
-      madeBy: "MD Israfil Miya"
+      madeBy: 'MD Israfil Miya',
     }
     res.status(200).json(data)
   } catch {

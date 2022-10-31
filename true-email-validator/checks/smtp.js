@@ -1,10 +1,12 @@
 import emailSMTPVerificator from 'email-smtp-verificator'
-const verify = emailSMTPVerificator({ timeout: 12000 })
+
+const verify = emailSMTPVerificator({ timeout: 1000 })
 
 const smtp = async (email) => {
   let res = {}
 
   let allInfo = await verify(email)
+  console.log(allInfo)
 
   if (!allInfo.verified) {
     res.error = "SMTP server didn't response"
